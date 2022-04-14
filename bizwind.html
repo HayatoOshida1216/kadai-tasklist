@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        ons.bootstrap();
+
+        document.addEventListener('deviceready',function(){
+            for(var i=1; i <= 10; i++) {
+                $("#list").append('<airtcle><div><a href="#" onClick="showDetail(\'URL:' + i + '\', \'TITLE:' + i + '\')">' + i + '</a></div></article>');
+            }
+        },false);
+
+        function showDetail(url, title) {
+            // detail.htmlに遷移
+            // http://ja.onsen.io/guide/overview.html#navigatorgetCurrentPage
+            myNavigator.pushPage("detail.html",{
+                animation: 'lift', 
+                url : url, // 渡すデータ
+                title : title,  // 渡すデータ
+            })
+        }
+
+        // detail.htmlのページ初期化のイベント
+        // http://ja.onsen.io/guide/overview.html#Pageinitevent
+        document.addEventListener("pageinit", function(e) {
+            if (e.target.id == "page-detail") {
+                // 渡したデータを取得して表示
+                // http://ja.onsen.io/guide/overview.html#navigatorgetCurrentPage
+                var options = myNavigator.getCurrentPage().options;
+                $('#page-detail').find('.url').text(options.url);
+                $('#page-detail').find('.title').text(options.title);
+            }
+        }, false);
+    </script>
+</head>
+<body>
+<ons-navigator title="Navigator" var="myNavigator">
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Index</div>
+        </ons-toolbar>
+        <section id="list"></section>
+    </ons-page>
+</ons-navigator>
+</body>
